@@ -29,11 +29,11 @@ public class Robot extends TimedRobot {
 
   private final Joystick m_stick = new Joystick(0);
 
-  private int m_frontLeft = 2;
-  private int m_rearLeft = 4;
+  private int m_frontLeft = 17;
+  private int m_rearLeft = 18;
 
-  private int m_frontRight = 3;
-  private int m_rearRight = 1;
+  private int m_frontRight = 16;
+  private int m_rearRight = 9;
 
   private WPI_VictorSPX m_frontLeftMotor = new WPI_VictorSPX(m_frontLeft);
   private WPI_VictorSPX m_rearLeftMotor = new WPI_VictorSPX(m_rearLeft);

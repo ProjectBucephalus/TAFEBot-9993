@@ -4,12 +4,13 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,7 +28,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
-  private final Joystick m_stick = new Joystick(0);
+  private final XboxController m_Controller = new XboxController(0);
 
   private int m_frontLeft = 17;
   private int m_rearLeft = 18;
@@ -38,8 +39,8 @@ public class Robot extends TimedRobot {
   private WPI_VictorSPX m_frontLeftMotor = new WPI_VictorSPX(m_frontLeft);
   private WPI_VictorSPX m_rearLeftMotor = new WPI_VictorSPX(m_rearLeft);
 
-  private WPI_VictorSPX m_frontRightMotor = new WPI_VictorSPX(m_frontRight);
-  private WPI_VictorSPX m_rearRightMotor = new WPI_VictorSPX(m_rearRight);
+  private WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(m_frontRight);
+  private WPI_TalonFX m_rearRightMotor = new WPI_TalonFX(m_rearRight);
   
   MotorControllerGroup m_left = new MotorControllerGroup(m_frontLeftMotor, m_rearLeftMotor);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRightMotor, m_rearRightMotor);
@@ -109,7 +110,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(-m_stick.getY(), -m_stick.getX());
+    m_robotDrive.tankDrive(m_Controller.getLeftY(), m_Controller.getRightY());
   }
 
   /** This function is called once when the robot is disabled. */

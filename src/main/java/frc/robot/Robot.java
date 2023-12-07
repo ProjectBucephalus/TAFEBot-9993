@@ -36,11 +36,17 @@ public class Robot extends TimedRobot {
   private int m_frontRight = 16;
   private int m_rearRight = 9;
 
+  private int m_intakeLeft = 15;
+  private int m_intakeRight = 2;
+
   private WPI_VictorSPX m_frontLeftMotor = new WPI_VictorSPX(m_frontLeft);
   private WPI_VictorSPX m_rearLeftMotor = new WPI_VictorSPX(m_rearLeft);
 
   private WPI_TalonFX m_frontRightMotor = new WPI_TalonFX(m_frontRight);
   private WPI_TalonFX m_rearRightMotor = new WPI_TalonFX(m_rearRight);
+
+  private WPI_TalonFX m_intakeLeftMotor = new WPI_TalonFX(m_intakeLeft);
+  private WPI_TalonFX m_intakeRightMotor = new WPI_TalonFX(m_intakeRight);
   
   MotorControllerGroup m_left = new MotorControllerGroup(m_frontLeftMotor, m_rearLeftMotor);
   MotorControllerGroup m_right = new MotorControllerGroup(m_frontRightMotor, m_rearRightMotor);
@@ -111,6 +117,22 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_robotDrive.tankDrive(m_Controller.getLeftY(), m_Controller.getRightY());
+    
+    if (m_Controller.getLeftTriggerAxis() > 0.5) {
+      m_intakeLeftMotor.set(-1);
+      m_intakeRightMotor.set(1);
+    } else {
+      m_intakeLeftMotor.set(0);
+      m_intakeRightMotor.set(0);
+    }
+
+    if (m_Controller.getRightTriggerAxis() > 0.5) {
+      m_intakeLeftMotor.set(1);
+      m_intakeRightMotor.set(-1);
+    } else if (m_intakeLeftMotor.get() > -1 ) {
+      m_intakeLeftMotor.set(0);
+      m_intakeRightMotor.set(0);
+    }
   }
 
   /** This function is called once when the robot is disabled. */
